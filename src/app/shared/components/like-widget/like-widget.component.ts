@@ -1,5 +1,6 @@
-import { Component, Input, Output } from "@angular/core";
-import { EventEmitter } from "protractor";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { UniqueServiceId } from "../../services/unique-id/unique-id.service";
 
 @Component({
     selector: 'app-like-widget',
@@ -7,9 +8,23 @@ import { EventEmitter } from "protractor";
     styleUrls: ['like-widget.component.scss']
 })
 
-export class LikeWidgetComponent {
+export class LikeWidgetComponent implements OnInit{
     // Quando clicar emitir um evento 
-    @Output() public liked = new EventEmitter();
+    @Output() public liked  = new EventEmitter<void>();
     @Input() public likes = 0;
     @Input() public id = null;
-}
+
+    public fonts = { faThumbsUp }
+
+    constructor(private uniqueIdService: UniqueServiceId) {}
+
+    ngOnInit(): void {
+        if(!this.id) {
+            this.id = this.uniqueIdService.generateUniqueIdWithPrefix('like-widget')
+        }
+    }
+
+    public like(): void {
+       this.liked.emit();
+    }
+} 
