@@ -8,7 +8,9 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
       require('karma-jasmine-html-reporter'),
+      require('karma-junit-reporter'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
@@ -28,8 +30,19 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'Firefox'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+
+
+    // opção que define o lançador CustomLauncher que utilizará como base a browser Firefox passando como parâmetro para este navegador -headless. 
+    // Caso fosse necessário criar um Custom Launcher para um navegador
+    // que ainda não tenha essa config disponível
+    // customLaunchers: {
+    //   FirefoxSemCabeca: {
+    //     base: 'Firefox',
+    //     flags: ['-headless']
+    //   }
+    // }
   });
 };
